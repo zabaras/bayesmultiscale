@@ -1,3 +1,7 @@
+'''
+Reference:
+https://github.com/cornellius-gp/gpytorch/blob/master/gpytorch/utils/sparse.py
+'''
 #!/usr/bin/env python3
 
 import torch

@@ -1,4 +1,7 @@
-#https://github.com/cornellius-gp/gpytorch/blob/master/gpytorch/utils/sparse.py
+'''
+Reference:
+https://github.com/cornellius-gp/gpytorch/blob/master/gpytorch/utils/sparse.py
+'''
 import torch
 from models.broadcasting import _matmul_broadcast_shape
 
