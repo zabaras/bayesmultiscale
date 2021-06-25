@@ -7,6 +7,19 @@ Govinda Anantha Padmanabha, [Nicholas Zabaras](https://www.zabaras.com/)
 PyTorch Implementation of Hybrid multiscale-DenseED.
 
 
+## Quick Start
+
+### Dataset
+
+
+### Training the hybrid multiscale-DenseED model
+
+> - python3 main.py
+
+## Contact  
+
+Open an issue on the Github repository if you have any questions.
+
 
 
 
