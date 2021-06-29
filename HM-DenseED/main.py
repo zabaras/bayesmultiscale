@@ -79,7 +79,7 @@ def train(epoch):
             A_app.append(A_torch_final)
         A1_transformed = torch.stack(A_app,dim=0)
         #Obtain the indices for the non-interior support region
-        C = io.loadmat(dir+'/basis_save_1.mat')
+        C = io.loadmat(dir+'/matlab_index_save_1.mat')
         C = C['basis_save']
         C = np.squeeze(C)
         X = np.empty((C.shape[0], C[0].shape[0], C[0].shape[1]))
@@ -184,7 +184,7 @@ def test(epoch):
             A_app.append(A_torch_final)
         A1_transformed = torch.stack(A_app,dim=0).to(device)
 
-        C = io.loadmat(dir+'/basis_save_1.mat')
+        C = io.loadmat(dir+'/matlab_index_save_1.mat')
         C = C['basis_save']
         C = np.squeeze(C)
         X = np.empty((C.shape[0], C[0].shape[0], C[0].shape[1]))
