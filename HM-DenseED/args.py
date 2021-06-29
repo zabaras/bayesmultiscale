@@ -16,7 +16,8 @@ class Parser(argparse.ArgumentParser):
         self.add_argument('--bn-size', type=int, default=8, help='bottleneck size: bn_size * growth_rate')
         self.add_argument('--bottleneck', action='store_true', default=False, help='enables bottleneck design in the dense blocks')
         # data 
-        self.add_argument('--ntrain', type=int, default=64, help="number of training data")
+        self.add_argument('--data', type=str, default="KLE", help='dataset KLE or channel')
+        self.add_argument('--ntrain', type=int, default=32, help="number of training data")
         self.add_argument('--data-dir', type=str, default="./dataset", help='directory to dataset')
         self.add_argument('--kle', type=int, default=100, help='num of KLE terms')
         self.add_argument('--imsize', type=int, default=128*128, help='data dimension')

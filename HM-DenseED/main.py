@@ -22,8 +22,10 @@ import matplotlib.pyplot as plt
 import scipy.io as io
 import matplotlib.ticker as ticker
 plt.switch_backend('agg')
+import warnings
+warnings.filterwarnings("ignore")
 
-torch.set_default_tensor_type('torch.cuda.FloatTensor')
+torch.set_default_tensor_type('torch.FloatTensor')
 
 # initialize DenseED model
 model = DenseED(in_channels=1, out_channels=1, 
@@ -141,7 +143,7 @@ def train(epoch):
         A_c_transformed = torch.matmul(torch.transpose(bdsmm(A1_transformed,R1_transformed),1,2),B1_transformed)
         R1_transformed = torch.transpose(R1_transformed,1,2) 
         temp1_transformed = torch.matmul(R1_transformed,q1_transformed)
-        temp2_transformed,LU = torch.gesv(temp1_transformed,A_c_transformed)
+        temp2_transformed,LU = torch.solve(temp1_transformed,A_c_transformed)
         temp3_transformed = torch.matmul(B1_transformed,temp2_transformed)
         predict_pressure = temp3_transformed
         target_pressure = target_pressure.view(1,16384)
@@ -246,7 +248,7 @@ def test(epoch):
         A_c_transformed = torch.matmul(torch.transpose(bdsmm(A1_transformed,R1_transformed),1,2),B1_transformed)
         R1_transformed = torch.transpose(R1_transformed,1,2) 
         temp1_transformed = torch.matmul(R1_transformed,q1_transformed)
-        temp2_transformed,LU = torch.gesv(temp1_transformed,A_c_transformed)
+        temp2_transformed,LU = torch.solve(temp1_transformed,A_c_transformed)
         temp3_transformed = torch.matmul(B1_transformed,temp2_transformed)
         predict_pressure = temp3_transformed.view(64,16384)
         target_pressure = target_pressure.view(64,16384).type(torch.cuda.FloatTensor)
@@ -260,9 +262,16 @@ def test(epoch):
                 interior_basis = output_basis.cpu().detach().numpy()
                 io.savemat('./result_data/test_interior_basis_%d.mat'%epoch, dict([('interior_basis',np.array(interior_basis))]))
                 io.savemat('./result_data/test_prolongation_%d.mat'%epoch, dict([('prolongation_operator',np.array(temp_save))]))              
-                kkk = 28
+                if args.kle == 100:
+                    index_val = 28
+                elif args.kle == 1000:
+                    index_val = 23
+                elif args.kle == 16384:
+                    index_val = 28
+                elif args.data == 'channel':
+                    index_val = 7
                 velocity_x_tar, velocity_y_tar, velocity_x_pred, velocity_y_pred = \
-                         velocity_post_process(target_press[kkk,:], predict_press[kkk,:],T_val[kkk,:],ft_val[kkk,:],epoch,kkk)
+                         velocity_post_process(target_press[index_val,:], predict_press[index_val,:],T_val[index_val,:],ft_val[index_val,:],epoch,index_val)
         mse += loss2.item()
         final_target.append(target_press)
         final_predict.append(predict_press)
