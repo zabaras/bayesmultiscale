@@ -7,7 +7,7 @@ import time
 
 class Parser(argparse.ArgumentParser):
     def __init__(self):
-        super(Parser, self).__init__(description='Bayesian Convolutional Encoder-Decoder Networks with SVGD')
+        super(Parser, self).__init__(description='Bayesian HM-DenseED')
         self.add_argument('--post', action='store_true', default=False, help='enables post analysis mode, default is training mode')
         self.add_argument('--debug', action='store_true', default=False, help='enters debug mode, to check GPU memory usage, try different hyperparams, etc.')
         self.add_argument('--exp-name', type=str, default='Bayesian', help='experiment name')
