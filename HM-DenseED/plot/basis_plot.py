@@ -14,6 +14,21 @@ dir_2 = './result_data/'
 dir_3 = './result_data/'
 
 ntrain = 64
+# img_val = 7
+
+if args.kle == 100:
+    img_val = 28
+    val_p = 96
+elif args.kle == 1000:
+    img_val = 23
+    val_p = 82
+elif args.kle == 16384:
+    img_val = 28
+    val_p = 126
+elif args.data == 'channel':
+    img_val = 7
+    val_p = 79
+
 C = io.loadmat(dir+'basis_save_1.mat')
 C = C['basis_save']
 C = np.squeeze(C)
@@ -75,7 +90,7 @@ def plot_basis(tar1,pred1,ntrain,val_p):
 def basis_plot():
     pro1 = io.loadmat(dir_1+'test_prolongation_%d.mat'%args.epochs)
     pro1 = pro1['prolongation_operator']
-    B1_p_out1 = pro1[28,:,:]
+    B1_p_out1 = pro1[img_val,:,:]
     B1_p_out1 = B1_p_out1.reshape(16384, 256)
     jjj=0
     ss = 0
@@ -98,10 +113,10 @@ def basis_plot():
     #========================================================================
     #========================================================================
     tar15 = tar1
-    val_p = 18
+    # val_p = 79
     pred1 = temp11[143-val_p,:].reshape(15,15)
     pred1 = pred1.transpose()
-    tar1 = tar15[28,val_p,:].reshape(15,15)
+    tar1 = tar15[img_val,val_p,:].reshape(15,15)
     tar1 = tar1.transpose()
     plot_basis(tar1, pred1,ntrain,val_p)
 
