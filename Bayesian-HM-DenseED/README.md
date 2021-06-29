@@ -12,17 +12,17 @@ PyTorch Implementation of Bayesian Hybrid multiscale-DenseED.
 ### Dataset
 
 
-## Training the Bayesian hybrid multiscale-DenseED model
+### Training the Bayesian hybrid multiscale-DenseED model
 
 > - python3 train_BayesianNN.py
 
 ## Testing the Bayesian hybrid multiscale-DenseED model
 
-# Uncertainty quantification
+### Uncertainty quantification
 
 > - python3 test_BayesianNN_UQ.py
 
-# Uncertainty propagation
+### Uncertainty propagation
 
 > - python3 test_BayesianNN_UP.py
 
