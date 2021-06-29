@@ -8,19 +8,27 @@ import h5py
 from time import time
 from scipy import sparse
 from args import args, device
+
 class Dataset(torch.utils.data.Dataset):
     def __len__(self):
         return args.ntrain
     def __getitem__(self, idx):
+        #print(idx)
         idx = idx+1
         #input
-        dir = './KLE_100'
+        dir = '/KLE_100/Train'
         #input_data
         self.input = io.loadmat(dir+'/input_1_test/input_1_%d.mat'%idx)
         self.input = self.input['input_1']
         self.input = np.transpose(self.input)
-        self.input = np.log(self.input)
+
+        if args.data == 'KLE':
+            self.input = np.log(self.input)
+        elif args.data == 'channel':
+            self.input = self.input
         self.input = torch.from_numpy(self.input)
+
+
         #basis_patch
         self.basis_patch = io.loadmat(dir+'/output/output_1_%d.mat'%idx)
         self.basis_patch = self.basis_patch['output_1']  
@@ -42,6 +50,8 @@ class Dataset(torch.utils.data.Dataset):
         return self.input, self.basis_patch, self.A_matrix, self.B_matrix, self.target_P, self.q_matrix
 
 def train_load_data():
+    
+
     kwargs = {'num_workers': 4,
                 'pin_memory': True} if torch.cuda.is_available() else {}
     s=Dataset()

@@ -11,16 +11,18 @@ from args import args, device
 
 class Dataset(torch.utils.data.Dataset):
     def __len__(self):
-        return 256
+        return args.ntest
     def __getitem__(self, idx):
-        #print(idx)
         idx = idx+1
-        dir = './KLE_100'
+        dir = '/KLE_100/Test'
         #input
         self.input = io.loadmat(dir+'/input_1_test/input_1_%d.mat'%idx)
         self.input = self.input['input_1']
         self.input = np.transpose(self.input)
-        self.input = np.log(self.input)
+        if args.data == 'KLE':
+            self.input = np.log(self.input)
+        elif args.data == 'channel':
+            self.input = self.input
         self.input = torch.from_numpy(self.input)
         #basis_patch
         self.basis_patch = io.loadmat(dir+'/output/output_1_%d.mat'%idx)
@@ -30,6 +32,7 @@ class Dataset(torch.utils.data.Dataset):
         #A-matrix
         self.A_matrix = io.loadmat(dir+'/A_matrix_test/A_matrix1_%d.mat'%idx)
         self.A_matrix = torch.from_numpy(self.A_matrix['A_matrix1'])
+
         #q-matrix
         self.q_matrix = io.loadmat(dir+'/q_matrix_test/q_matrix1_%d.mat'%idx)
         self.q_matrix = self.q_matrix['q_matrix1']
@@ -39,14 +42,21 @@ class Dataset(torch.utils.data.Dataset):
         #target-matrix
         self.target_P = io.loadmat(dir+'/P_value_test/P_value_%d.mat'%idx)
         self.target_P = self.target_P['P_value']
+
+
         #velocity
         self.ft = io.loadmat(dir+'/flux/ft_value_%d.mat'%idx)
         self.ft = self.ft['ft']
+
         self.T_val = io.loadmat(dir+'/flux/T_value_%d.mat'%idx)
         self.T_val = self.T_val['T_value']
+
+
         return self.input, self.basis_patch, self.A_matrix, self.B_matrix, self.target_P, self.q_matrix, self.T_val, self.ft
 
 def test_load_data():
+    
+
     kwargs = {'num_workers': 4,
                 'pin_memory': True} if torch.cuda.is_available() else {}
     s=Dataset()
@@ -54,3 +64,4 @@ def test_load_data():
                                         batch_size=64, shuffle=False,
                                         **kwargs)
     return loader
+

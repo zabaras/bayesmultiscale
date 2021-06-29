@@ -13,12 +13,15 @@ class Dataset(torch.utils.data.Dataset):
     def __getitem__(self, idx):
         #print(idx)
         idx = idx+1
-        dir = './KLE_100'
+        dir = '/KLE_100_mcs'
         #input
         self.input = io.loadmat(dir+'/input_1_test/input_1_%d.mat'%idx)
         self.input = self.input['input_1']
         self.input = np.transpose(self.input)
-        self.input = np.log(self.input)
+        if args.data == 'KLE':
+            self.input = np.log(self.input)
+        elif args.data == 'channel':
+            self.input = self.input
         self.input = torch.from_numpy(self.input)
         #basis_patch
         self.basis_patch = io.loadmat(dir+'/output/output_1_%d.mat'%idx)
