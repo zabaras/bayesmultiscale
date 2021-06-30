@@ -17,10 +17,10 @@ Python 3
 If you find this GitHub repository useful for your work, please consider to cite this work:  
 
 
-@article{padmanabha2021bayesian,
-  title={A Bayesian multiscale deep learning framework for flows in random media},
-  author={Padmanabha, Govinda Anantha and Zabaras, Nicholas},
-  journal={Foundations of Data Science},
-  year={2021},
-  publisher={American Institute of Mathematical Sciences}
+@article{padmanabha2021bayesian,  
+  title={A Bayesian multiscale deep learning framework for flows in random media},  
+  author={Padmanabha, Govinda Anantha and Zabaras, Nicholas},  
+  journal={Foundations of Data Science},  
+  year={2021},  
+  publisher={American Institute of Mathematical Sciences}  
 }
